@@ -13,7 +13,7 @@ jobs:
         glib: [ enable-glib, disable-glib ]
     steps:
       - name: Install packages
-        run: sudo apt install gettext
+        run: sudo apt install gettext unixodbc
       - uses: actions/checkout@v2
       - name: Fetch test data
         run: |
@@ -62,7 +62,7 @@ jobs:
           mkdir test
           curl -sSLf "$TEST_DATA_URL" | tar xz --strip-components=1 -C test
       - name: Autoconf
-        run: autoreconf -i -f
+        run: autoreconf -i -f -I $(brew --prefix)/share/gettext/m4
       - name: Configure
         run: ./configure --disable-silent-rules --${{ matrix.glib }} --${{ matrix.iconv }} --with-unixodbc=/opt/homebrew/opt/unixodbc
         env:
@@ -105,7 +105,7 @@ jobs:
           mkdir test
           curl -sSLf "$TEST_DATA_URL" | tar xz --strip-components=1 -C test
       - name: Autoconf
-        run: autoreconf -i -f
+        run: autoreconf -i -f -I $(brew --prefix)/share/gettext/m4
       - name: Configure
         run: ./configure --disable-silent-rules --${{ matrix.glib }} --with-iodbc=/opt/homebrew/opt/libiodbc
         env:
