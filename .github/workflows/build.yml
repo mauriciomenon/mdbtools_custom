@@ -8,12 +8,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        compiler: [ clang, gcc, gcc-9, gcc-10 ]
+        compiler: [ clang, gcc, gcc-11, gcc-12 ]
         iconv: [ enable-iconv, disable-iconv]
         glib: [ enable-glib, disable-glib ]
     steps:
       - name: Install packages
-        run: sudo apt install gettext unixodbc
+        run: sudo apt install gettext unixodbc gcc-11 gcc-12
       - uses: actions/checkout@v2
       - name: Fetch test data
         run: |
