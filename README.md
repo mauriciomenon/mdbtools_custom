@@ -1,5 +1,7 @@
 OBS: README ORIUNDO DO REPO ORIGINAL DISPONIVEL EM https://github.com/mdbtools/mdbtools
 
+RECOMENDO TAMBEM VERIFICAR https://github.com/lsgunth/mdbtools-win
+
 
 [![Build Status](https://github.com/mdbtools/mdbtools/workflows/build/badge.svg)](https://github.com/mdbtools/mdbtools/actions)
 [![Build status](https://ci.appveyor.com/api/projects/status/22wwy5d0rrmk6e3c/branch/dev?svg=true)](https://ci.appveyor.com/project/evanmiller/mdbtools/branch/dev)
