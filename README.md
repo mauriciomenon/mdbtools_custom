@@ -1,3 +1,6 @@
+OBS: README ORIUNDO DO REPO ORIGINAL DISPONIVEL EM https://github.com/mdbtools/mdbtools
+
+
 [![Build Status](https://github.com/mdbtools/mdbtools/workflows/build/badge.svg)](https://github.com/mdbtools/mdbtools/actions)
 [![Build status](https://ci.appveyor.com/api/projects/status/22wwy5d0rrmk6e3c/branch/dev?svg=true)](https://ci.appveyor.com/project/evanmiller/mdbtools/branch/dev)
 [![Fuzzing Status](https://oss-fuzz-build-logs.storage.googleapis.com/badges/mdbtools.svg)](https://bugs.chromium.org/p/oss-fuzz/issues/list?sort=-opened&can=1&q=proj:mdbtools)
