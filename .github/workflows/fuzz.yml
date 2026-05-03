@@ -1,22 +1,30 @@
 name: CIFuzz
 on: [pull_request]
+permissions:
+  contents: read
+
 jobs:
   Fuzzing:
     runs-on: ubuntu-latest
     steps:
+    - name: Harden the runner (Audit all outbound calls)
+      uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
+      with:
+        egress-policy: audit
+
     - name: Build Fuzzers
-      uses: google/oss-fuzz/infra/cifuzz/actions/build_fuzzers@master
+      uses: google/oss-fuzz/infra/cifuzz/actions/build_fuzzers@92fbbf11549dcf853c2c8b8dd2b8d1d6b9bf929b # master
       with:
         oss-fuzz-project-name: 'mdbtools'
         dry-run: false
     - name: Run Fuzzers
-      uses: google/oss-fuzz/infra/cifuzz/actions/run_fuzzers@master
+      uses: google/oss-fuzz/infra/cifuzz/actions/run_fuzzers@92fbbf11549dcf853c2c8b8dd2b8d1d6b9bf929b # master
       with:
         oss-fuzz-project-name: 'mdbtools'
         fuzz-seconds: 600
         dry-run: false
     - name: Upload Crash
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@3446296876d12d4e3a0f3145a3c87e67bf0a16b5 # v1.0.0
       if: failure()
       with:
         name: artifacts
