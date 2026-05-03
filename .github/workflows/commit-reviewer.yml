@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+        with:
+          persist-credentials: false
 
       - name: Comment on last commit with quality checks
         uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b
@@ -33,7 +35,7 @@ jobs:
               '.prettier.config.js', '.prettier.config.cjs', '.prettierrc.yml', '.prettierrc.yaml'
             ].some(exists);
             const hasTestsDir = ['tests', '__tests__'].some(exists);
-            const hasCI = exists('.github/workflows/ci.yml') || exists('.github/workflows/ci.yaml');
+            const hasCI = exists('.github/workflows/ci.yml') || exists('.github/workflows/ci.yaml') || exists('.github/workflows/build.yml');
 
             let pkg = null; let scripts = {};
             try { pkg = JSON.parse(fs.readFileSync(path.join(ws, 'package.json'), 'utf8')); scripts = pkg.scripts || {}; } catch {}
@@ -45,7 +47,7 @@ jobs:
               check('ESLint configured', hasEslint, 'add .eslintrc'),
               check('Prettier configured', hasPrettier, 'add Prettier config'),
               check('Tests directory', hasTestsDir, 'add tests/ or __tests__/'),
-              check('CI workflow present', hasCI, 'add .github/workflows/ci.yml')
+              check('CI workflow present', hasCI, 'add .github/workflows/ci.yml or build.yml')
             ];
             if (pkg) {
               checks.push(check('npm script: test', 'test' in scripts, 'add "test" script'));
