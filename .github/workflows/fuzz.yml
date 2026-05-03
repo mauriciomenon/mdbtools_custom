@@ -5,18 +5,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Build Fuzzers
-      uses: google/oss-fuzz/infra/cifuzz/actions/build_fuzzers@master
+      uses: google/oss-fuzz/infra/cifuzz/actions/build_fuzzers@c11174f47deee98f260dede5d661614bda78ae39
       with:
         oss-fuzz-project-name: 'mdbtools'
         dry-run: false
     - name: Run Fuzzers
-      uses: google/oss-fuzz/infra/cifuzz/actions/run_fuzzers@master
+      uses: google/oss-fuzz/infra/cifuzz/actions/run_fuzzers@c11174f47deee98f260dede5d661614bda78ae39
       with:
         oss-fuzz-project-name: 'mdbtools'
         fuzz-seconds: 600
         dry-run: false
     - name: Upload Crash
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@3446296876d12d4e3a0f3145a3c87e67bf0a16b5
       if: failure()
       with:
         name: artifacts
