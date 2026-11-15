@@ -41,7 +41,8 @@ if (-not (Test-Path $Zig)) {
     try { if (-not (Test-Path $zip)) { Invoke-WebRequest $ZigUrl -OutFile $zip } } catch { Fail 3 "download failed: $_" }
     $got = (Get-FileHash $zip -Algorithm SHA256).Hash.ToLowerInvariant()
     if ($got -ne $ZigSha256) { Remove-Item $zip; Fail 3 "sha256 mismatch for $ZigName.zip: $got" }
-    tar -xf $zip -C "$Root\.tools"
+    # Windows' own bsdtar reads zip and is much faster than Expand-Archive (a GNU tar earlier in PATH would not).
+    & "$env:SystemRoot\System32\tar.exe" -xf $zip -C "$Root\.tools"
     if ($LASTEXITCODE -ne 0 -or -not (Test-Path $Zig)) { Fail 3 "could not extract $zip" }
     Remove-Item $zip
 }
