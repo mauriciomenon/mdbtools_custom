@@ -67,9 +67,10 @@ try {
     $cflags = '-target', 'x86_64-windows-gnu', '-O2', '-s', '-w', '-D_GNU_SOURCE', '-DHAVE_VASPRINTF=1', '-DTLS=__thread',
         "-I$Build\include", "-I$Root\include"
     $libSources = (Get-ChildItem "$Root\src\libmdb\*.c").FullName + "$Root\scripts\win\binmode.c"
-    $objects = foreach ($source in $libSources) {
-        $object = "$Build\obj\$([IO.Path]::GetFileNameWithoutExtension($source)).o"
-        Run $Zig (@('cc', '-c') + $cflags + @('-o', $object, $source))
+    # Not $source: PowerShell names are case-insensitive and that would overwrite $Source.
+    $objects = foreach ($cFile in $libSources) {
+        $object = "$Build\obj\$([IO.Path]::GetFileNameWithoutExtension($cFile)).o"
+        Run $Zig (@('cc', '-c') + $cflags + @('-o', $object, $cFile))
         $object
     }
 
@@ -96,6 +97,7 @@ try {
     Copy-Item "$Root\COPYING", "$Root\COPYING.LIB" "$Stage\$Product"
     "mdbtools $Version ($Source) - Windows amd64, static, no iconv/GLib. Source and build: README-BUILD.txt in the repository." |
         Set-Content "$Stage\$Product\VERSION.txt"
+    if ((Get-Content "$Stage\$Product\VERSION.txt" -Raw) -match ':\\') { Fail 1 'VERSION.txt contains an absolute path' }
     Compress-Archive -Path "$Stage\$Product" -DestinationPath "$Stage\$Product.zip"
     Copy-Item "$Stage\$Product\*.exe" $Stage
     Remove-Item -Recurse -Force "$Stage\$Product"
