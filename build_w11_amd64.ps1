@@ -67,10 +67,11 @@ try {
     $cflags = '-target', 'x86_64-windows-gnu', '-O2', '-s', '-w', '-D_GNU_SOURCE', '-DHAVE_VASPRINTF=1', '-DTLS=__thread',
         "-I$Build\include", "-I$Root\include"
     $libSources = (Get-ChildItem "$Root\src\libmdb\*.c").FullName + "$Root\scripts\win\binmode.c"
-    Push-Location "$Build\obj"
-    try { Run $Zig (@('cc', '-c') + $cflags + $libSources) } finally { Pop-Location }
-    $objects = (Get-ChildItem "$Build\obj" -File).FullName
-    if ($objects.Count -ne $libSources.Count) { Fail 1 "expected $($libSources.Count) objects, got $($objects.Count)" }
+    $objects = foreach ($source in $libSources) {
+        $object = "$Build\obj\$([IO.Path]::GetFileNameWithoutExtension($source)).o"
+        Run $Zig (@('cc', '-c') + $cflags + @('-o', $object, $source))
+        $object
+    }
 
     foreach ($tool in $Tools) {
         $exe = "$Stage\$Product\$tool.exe"
