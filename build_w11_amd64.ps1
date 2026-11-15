@@ -37,8 +37,8 @@ $Zig = "$Root\.tools\$ZigName\zig.exe"
 if (-not (Test-Path $Zig)) {
     New-Item -ItemType Directory -Force "$Root\.tools" | Out-Null
     $zip = "$Root\.tools\$ZigName.zip"
-    Write-Host "Downloading $ZigUrl"
-    try { Invoke-WebRequest $ZigUrl -OutFile $zip } catch { Fail 3 "download failed: $_" }
+    if (-not (Test-Path $zip)) { Write-Host "Downloading $ZigUrl" }
+    try { if (-not (Test-Path $zip)) { Invoke-WebRequest $ZigUrl -OutFile $zip } } catch { Fail 3 "download failed: $_" }
     $got = (Get-FileHash $zip -Algorithm SHA256).Hash.ToLowerInvariant()
     if ($got -ne $ZigSha256) { Remove-Item $zip; Fail 3 "sha256 mismatch for $ZigName.zip: $got" }
     tar -xf $zip -C "$Root\.tools"
