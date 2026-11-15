@@ -62,3 +62,8 @@ public/
 .sass-cache/
 *.css.map
 temp-man-pages/
+
+# Windows static build (build_w11_amd64.ps1)
+/.tools/
+/dist/
+/build.stage.*/
