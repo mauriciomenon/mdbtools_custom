@@ -97,6 +97,19 @@ If you want to build man pages, you'll need
 
 Latest version is available at https://github.com/mdbtools/mdbtools
 
+### Windows 11 amd64, static (this fork)
+
+One command, from a clean commit, in PowerShell 7:
+
+```powershell
+.\build_w11_amd64.ps1    # -> dist\w11\amd64\: mdb-tables/-schema/-export/-count/-ver/-json.exe, zip, SHA256SUMS.txt
+```
+
+It downloads a pinned Zig (clang + mingw-w64 UCRT, SHA-256 checked) into `.tools\` and builds
+statically linked executables that import only Windows system DLLs (KERNEL32 and the UCRT). No
+autotools, GLib or iconv; text is written as UTF-8. Details, limits and the DuckDB comparison test
+(`tests\compare_duckdb.py`): [README-BUILD.txt](./README-BUILD.txt).
+
 ### Debian
 
 ```

@@ -4,7 +4,7 @@
 # ///
 """Compare what the mdbtools executables read from an Access file with a DuckDB conversion of the same file.
 
-  uv run tests/compare_duckdb.py <dir with mdb-*.exe> <copy.accdb> <reference.duckdb> [--values]
+  uv run --no-project --with duckdb python -I tests/compare_duckdb.py <dir with mdb-*.exe> <copy.accdb> <reference.duckdb> [--values]
 
 Always: table list (mdb-tables) and row count of every table (mdb-count).
 --values: also every cell of every table (mdb-export CSV), rows matched as a multiset because the
